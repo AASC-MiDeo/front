@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 void main() {
   runApp(MyApp());
 }
-//테스팅ggㄷㄷg
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,25 +29,24 @@ class _CameraDataScreenState extends State<CameraDataScreen> {
   double temperature = 0.0;
   double humidity = 0.0;
 
-  // 플라스크 API 서버의 주소
+  // 플라스크 API 서버의 주소 (변경 필요)
   final String apiUrl = 'YOUR_FLASK_API_URL';
 
   @override
   void initState() {
     super.initState();
-    // 플라스크 API에서 데이터를 주기적으로 가져오는 함수 호출
+    // 초기화 시 한 번 데이터 가져오기
     fetchCameraData();
+    // 주기적으로 데이터 가져오기
+    Timer.periodic(Duration(seconds: 10), (timer) => fetchCameraData());
   }
 
   // 플라스크 API에서 데이터 가져오는 함수
   Future<void> fetchCameraData() async {
     try {
-      // API에서 데이터 가져오기
       final response = await http.get(Uri.parse(apiUrl));
       if (response.statusCode == 200) {
-        // JSON 데이터 파싱
         final data = json.decode(response.body);
-        // 가져온 데이터로 로고 색상 업데이트
         setState(() {
           isHelmetDetected = data['isHelmetDetected'];
           isGasDetected = data['isGasDetected'];
@@ -56,7 +55,7 @@ class _CameraDataScreenState extends State<CameraDataScreen> {
           humidity = data['humidity'];
         });
       } else {
-        throw Exception('Failed to load data');
+        print('Failed to load data: ${response.statusCode}');
       }
     } catch (error) {
       print('Error: $error');
