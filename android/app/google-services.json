@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "995626493389",
+    "project_id": "aasc-mideo",
+    "storage_bucket": "aasc-mideo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995626493389:android:e12c53a8dd39fd1dfb9084",
+        "android_client_info": {
+          "package_name": "com.example.myApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYwt8qiagC7Jq8_FKIhJ2CP1opyEiDf1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995626493389:android:35a73ee5ae49382cfb9084",
+        "android_client_info": {
+          "package_name": "com.example.test_01"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYwt8qiagC7Jq8_FKIhJ2CP1opyEiDf1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
