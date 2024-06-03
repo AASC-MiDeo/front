@@ -1,3 +1,18 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+       // classpath 'com.android.tools.build:gradle:7.6.3' // 필요한 경우 기존 버전
+        classpath 'com.google.gms:google-services:4.4.2' // 버전 업데이트
+    }
+}
+
+plugins {
+    id 'com.google.gms.google-services' version '4.4.2' apply false
+}
+
 allprojects {
     repositories {
         google()
@@ -16,3 +31,4 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+

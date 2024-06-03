@@ -38,3 +38,7 @@ app/build/
 *.war
 *.ear
 .gradle
+
+
+#키
+assets

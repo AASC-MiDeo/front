@@ -1,14 +1,59 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:dio/dio.dart';
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // 백그라운드에서 Firebase 서비스를 사용하려면 반드시 초기화
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print("Handling a background message: ${message.messageId}");
+}
+
+Future<String?> getFcmToken() async {
+  try {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    return fcmToken;
+  } catch (e, stackTrace) {
+    print("FCM 토큰 가져오기 실패: $e");
+    print("StackTrace: $stackTrace");
+    return null;
+  }
+}
+
+Future<void> sendTokenToServer(String? token) async {
+  if (token == null) return;
+  final dio = Dio();
+
+  try {
+    final response = await dio.post(
+        'http://ip주소:3000/register',
+    //localhost로 했을 때 안 잡히고 CMD에서 ipconfig로 IPv4 주소로 뜨는 거 입력해야 함
+    data: {'token': token});
+    print('토큰 서버로 전송: ${response.data}');
+  } catch (e) {
+    print('서버로 토큰 보내기 실패함: $e');
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler); // 백그라운드 메시지 핸들러 등록
+
+  String? fcmToken = await getFcmToken();
+  print("토큰 가져옴 : $fcmToken");
+
+  if (fcmToken != null) {
+    await sendTokenToServer(fcmToken);
+  }
   runApp(MyApp());
 }
 
